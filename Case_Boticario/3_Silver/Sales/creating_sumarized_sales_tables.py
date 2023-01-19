@@ -86,3 +86,14 @@ df_target_table = spark.sql(f'''
 df_target_table.write.format("delta").mode("overwrite").saveAsTable(target_db + '.' + target_table, mergeSchema=True, overwriteSchema=True)
 
 #display(df_target_table) 
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC SELECT
+# MAGIC   LINE
+# MAGIC FROM db_br_silver.sales_line_year_month
+# MAGIC WHERE YEAR=2019 
+# MAGIC   AND MONTH=12
+# MAGIC ORDER BY QUANTITY_SOLD DESC
+# MAGIC LIMIT 1

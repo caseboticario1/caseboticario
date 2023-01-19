@@ -4,15 +4,16 @@ import pandas
 
 # COMMAND ----------
 
+# DBTITLE 1,Set Environment Variables
 source_path = "/dbfs/FileStore/tables/"
 target_db = "db_br_bronze"
 
 # COMMAND ----------
 
 # DBTITLE 1,Sales Charge
-source_file1 = "Base_2017.xlsx"
-source_file2 = "Base_2018.xlsx"
-source_file3 = "Base_2019.xlsx"
+source_file1 = "Base2017.xlsx"
+source_file2 = "Base2018.xlsx"
+source_file3 = "Base2019.xlsx"
 target_table = "sales"
 
 pdf1 = pandas.read_excel(source_path + source_file1)
