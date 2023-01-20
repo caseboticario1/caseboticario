@@ -40,6 +40,7 @@ pdf = df_target_table.toPandas()
 query1 = "Boticário"
 query2 = pdf['LINE'][0]
 query3 = f'''{query1} OR {query2}'''
+query4 = f'''{query1} AND {query2}'''
 
 # COMMAND ----------
 
@@ -47,41 +48,31 @@ query3 = f'''{query1} OR {query2}'''
 search1 = tw_api.search_tweets(q=query1, lang="pt-BR", tweet_mode="extended",count=50)
 search2 = tw_api.search_tweets(q=query2, lang="pt-BR", tweet_mode="extended",count=50)
 search3 = tw_api.search_tweets(q=query3, lang="pt-BR", tweet_mode="extended",count=50)
+search4 = tw_api.search_tweets(q=query4, lang="pt-BR", tweet_mode="extended",count=50)
+
+# COMMAND ----------
+
+def append_twitters(search, twitters, query):
+    for results in search:
+        twitters.append([
+            results.id,
+            results.created_at,
+            results.user.screen_name,
+            results.user.name,
+            results.full_text,
+            query
+        ])
+    return twitters
 
 # COMMAND ----------
 
 # DBTITLE 1,Set DataFrame Pandas
 twitters = []
 
-for results1 in search1:
-    twitters.append([
-        results1.id,
-        results1.created_at,
-        results1.user.screen_name,
-        results1.user.name,
-        results1.full_text,
-        query1
-    ])
-    
-for results2 in search2:
-    twitters.append([
-        results2.id,
-        results2.created_at,
-        results2.user.screen_name,
-        results2.user.name,
-        results2.full_text,
-        query2
-    ])
-    
-for results3 in search3:
-    twitters.append([
-        results3.id,
-        results3.created_at,
-        results3.user.screen_name,
-        results3.user.name,
-        results3.full_text,
-        query3
-    ])
+twitters = append_twitters(search1, twitters, query1)
+twitters = append_twitters(search2, twitters, query2)
+twitters = append_twitters(search3, twitters, query3)
+twitters = append_twitters(search4, twitters, query4)
     
 pdf = pandas.DataFrame(twitters, columns=['id', 'created_at', 'screen_name', 'name', 'full_text', 'query_key'])
 
@@ -98,4 +89,5 @@ df_target_table.write.format("delta").mode("overwrite").saveAsTable(target_db + 
 
 # COMMAND ----------
 
-
+# MAGIC %sql
+# MAGIC SELECT * FROM db_br_bronze.twitters_logs
