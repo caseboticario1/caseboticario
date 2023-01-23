@@ -89,4 +89,8 @@ df_target_table.write.format("delta").mode("overwrite").saveAsTable(target_db + 
 
 # COMMAND ----------
 
-
+# MAGIC %sql
+# MAGIC SELECT
+# MAGIC       *
+# MAGIC       
+# MAGIC  FROM db_br_silver.sales_line_year_month

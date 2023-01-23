@@ -42,6 +42,11 @@ query2 = pdf['LINE'][0]
 query3 = f'''{query1} OR {query2}'''
 query4 = f'''{query1} AND {query2}'''
 
+print(query1)
+print(query2)
+print(query3)
+print(query4)
+
 # COMMAND ----------
 
 # DBTITLE 1,Twitter query
